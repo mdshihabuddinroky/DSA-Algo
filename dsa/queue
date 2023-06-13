@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+const int MAX_SIZE = 100;
+
+class Queue {
+private:
+    int arr[MAX_SIZE];
+    int front;
+    int rear;
+
+public:
+    Queue() {
+        front = -1;
+        rear = -1;
+    }
+
+    bool isEmpty() {
+        return (front == -1 && rear == -1);
+    }
+
+    bool isFull() {
+        return (rear == MAX_SIZE - 1);
+    }
+
+    void push(int data) {
+        if (isFull()) {
+            cout << "Queue is full. Overflow!" << endl;
+            return;
+        } else if (isEmpty()) {
+            front = rear = 0;
+        } else {
+            rear++;
+        }
+
+        arr[rear] = data;
+        cout << "Element " << data << " pushed." << endl;
+    }
+
+    void pop() {
+        if (isEmpty()) {
+            cout << "Queue is empty. Underflow!" << endl;
+            return;
+        } else if (front == rear) {
+            cout << "Element " << arr[front] << " popped." << endl;
+            front = rear = -1;
+        } else {
+            cout << "Element " << arr[front] << " popped." << endl;
+            front++;
+        }
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return;
+        }
+
+        cout << "Queue elements: ";
+        for (int i = front; i <= rear; i++) {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Queue queue;
+
+    queue.push(10);
+    queue.push(20);
+    queue.push(30);
+
+    queue.display();
+
+    queue.pop();
+    queue.pop();
+
+    queue.display();
+
+    queue.pop(); // This will cause underflow
+
+    return 0;
+}

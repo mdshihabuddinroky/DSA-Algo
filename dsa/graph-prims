@@ -1,0 +1,131 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+
+// Structure to represent an edge
+struct Edge {
+    int src, dest, weight;
+};
+
+// Structure to represent a node in the adjacency list
+struct Node {
+    int vertex, weight;
+};
+
+// Function to add an edge to the graph
+void addEdge(vector<Node>* adjList, int src, int dest, int weight) {
+    Node newNode;
+    newNode.vertex = dest;
+    newNode.weight = weight;
+    adjList[src].push_back(newNode);
+
+    newNode.vertex = src;
+    adjList[dest].push_back(newNode);
+}
+
+// Function to perform Prim's algorithm on the graph
+void primsMST(vector<Node>* adjList, int V) {
+    // Priority queue to select minimum weight edges
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+
+    // Starting vertex for MST
+    int startVertex = 0;
+
+    // Create a vector to store the MST
+    vector<bool> inMST(V, false);
+
+    // Choose startVertex as the first vertex
+    pq.push(make_pair(0, startVertex));
+
+    while (!pq.empty()) {
+        // Get the minimum weight edge from the priority queue
+        int currVertex = pq.top().second;
+        pq.pop();
+
+        // Mark the current vertex as part of MST
+        inMST[currVertex] = true;
+
+        // Traverse the adjacent vertices of the current vertex
+        for (auto node : adjList[currVertex]) {
+            int adjVertex = node.vertex;
+            int weight = node.weight;
+
+            // If the adjacent vertex is not yet in MST and the weight is less than the key value, update the key value and push the edge to the priority queue
+            if (!inMST[adjVertex]) {
+                pq.push(make_pair(weight, adjVertex));
+            }
+        }
+    }
+
+    // Print the Minimum Spanning Tree (MST)
+    cout << "Minimum Spanning Tree (MST):" << endl;
+    for (int i = 1; i < V; i++) {
+        cout << i << " - " << pq.top().second << endl;
+        pq.pop();
+    }
+}
+
+// Function to take input and build the graph
+void buildGraph() {
+    int V, E;
+    cout << "Enter the number of vertices in the graph: ";
+    cin >> V;
+    cout << "Enter the number of edges in the graph: ";
+    cin >> E;
+
+    vector<Node>* adjList = new vector<Node>[V];
+
+    cout << "Enter the edges (src, dest, weight):" << endl;
+    for (int i = 0; i < E; i++) {
+        int src, dest, weight;
+        cin >> src >> dest >> weight;
+        addEdge(adjList, src, dest, weight);
+    }
+
+    primsMST(adjList, V);
+
+    delete[] adjList;
+}
+
+// Driver program
+int main() {
+    buildGraph();
+
+    return 0;
+}
+
+
+
+*/input
+Enter the number of vertices in the graph: 5
+Enter the number of edges in the graph: 7
+Enter the edges (src, dest, weight):
+0 1 2
+0 3 6
+1 2 3
+1 3 8
+1 4 5
+2 4 7
+3 4 9
+
+/*
+
+*/output:
+
+Minimum Spanning Tree (MST):
+1 - 0
+2 - 1
+4 - 1
+3 - 0
+/*
+
+
+
+
+
+
+
+
+
+
